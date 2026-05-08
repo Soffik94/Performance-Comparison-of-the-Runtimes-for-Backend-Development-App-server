@@ -1,34 +1,27 @@
 import { getUsers, createUser } from "../controllers/users.controller.js";
 import { computeHash } from "../controllers/compute.controller.js";
 
-export async function router(req) {
+const routedPaths = new Set(["/ping", "/items", "/compute"]);
+
+export const routes = {
+  "/ping": {
+    GET: () => Response.json({ message: "pong" }),
+  },
+
+  "/items": {
+    GET: getUsers,
+    POST: createUser,
+  },
+
+  "/compute": {
+    GET: (req) => Response.json(computeHash(new URL(req.url))),
+  },
+};
+
+export function fallback(req) {
   const url = new URL(req.url);
 
-  if (url.pathname === "/ping") {
-    if (req.method === "GET") {
-      return Response.json({ message: "pong" });
-    }
-
-    return Response.json({ error: "method not allowed" }, { status: 405 });
-  }
-
-  if (url.pathname === "/items") {
-    if (req.method === "GET") {
-      return await getUsers();
-    }
-
-    if (req.method === "POST") {
-      return await createUser(req);
-    }
-
-    return Response.json({ error: "method not allowed" }, { status: 405 });
-  }
-
-  if (url.pathname === "/compute") {
-    if (req.method === "GET") {
-      return Response.json(computeHash(url));
-    }
-
+  if (routedPaths.has(url.pathname)) {
     return Response.json({ error: "method not allowed" }, { status: 405 });
   }
 

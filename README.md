@@ -12,8 +12,8 @@ are executed from a separate measurement server using Grafana k6.
 | Path | Description |
 | --- | --- |
 | `Node-app/` | Node.js + Express implementation |
-| `Deno-app/` | Deno native HTTP server implementation |
-| `Bun-app/` | Bun native HTTP server implementation |
+| `Deno-app/` | Deno native HTTP server with Hono routing |
+| `Bun-app/` | Bun native HTTP server with `Bun.serve` routes |
 | `db/runtime-schemas.sql` | PostgreSQL schemas and tables for benchmark isolation |
 | `DEPLOYMENT.md` | server topology, Docker deployment, smoke tests |
 | `ENDPOINTS.md` | detailed API documentation |
@@ -28,6 +28,11 @@ All three applications expose the same API surface:
 | `/compute?iterations=...` | `GET` | CPU-bound SHA-256 hashing |
 | `/items` | `GET` | PostgreSQL read workload |
 | `/items` | `POST` | PostgreSQL write workload |
+
+The routing layer is runtime-specific while keeping the endpoint behavior
+equivalent: Node.js uses Express Router, Deno uses the lightweight Hono router
+(`jsr:@hono/hono@4.12.18`) on top of `Deno.serve`, and Bun uses native
+`Bun.serve` routes.
 
 Each container listens on port `3000` internally. On the application server, the
 runtimes are exposed on separate host ports:

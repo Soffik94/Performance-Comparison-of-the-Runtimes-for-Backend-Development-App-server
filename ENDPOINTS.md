@@ -7,6 +7,10 @@ port `3000` internally. On the application server, the current host port mapping
 - Deno: `http://<app-server>:3001`
 - Bun: `http://<app-server>:3002`
 
+The HTTP contract is intentionally shared across runtimes. Internally, Node.js
+uses Express Router, Deno uses Hono on top of `Deno.serve`, and Bun uses native
+`Bun.serve` routes.
+
 ## Node App
 
 Base URL locally in container: `http://localhost:3000`
