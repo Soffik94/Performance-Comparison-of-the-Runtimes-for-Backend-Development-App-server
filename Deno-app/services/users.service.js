@@ -21,7 +21,7 @@ export const getUsers = async () => {
 
   try {
     const result = await client.queryObject(
-      "SELECT * FROM users ORDER BY id DESC"
+      "SELECT id, name, email, created_at FROM users ORDER BY id DESC LIMIT 1"
     );
 
     return result.rows;

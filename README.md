@@ -26,7 +26,7 @@ All three applications expose the same API surface:
 | --- | --- | --- |
 | `/ping` | `GET` | basic HTTP request-response latency |
 | `/compute?iterations=...` | `GET` | CPU-bound deterministic JavaScript work |
-| `/items` | `GET` | PostgreSQL read workload |
+| `/items` | `GET` | PostgreSQL single-row read workload |
 | `/items` | `POST` | PostgreSQL write workload |
 
 The routing layer is runtime-specific while keeping the endpoint behavior
@@ -143,7 +143,7 @@ Expected results:
 - `/compute` returns status `200` and a JSON payload with `iterations`,
   `duration_ms`, and `hash`.
 - `POST /items` returns status `201`.
-- `GET /items` returns a JSON array.
+- `GET /items` returns a JSON array with at most one newest row.
 
 ## Benchmarking
 

@@ -154,7 +154,7 @@ Expected results:
 - `/ping` returns `{"message":"pong"}`.
 - `/compute?iterations=10` returns status `200` and `iterations: 10`.
 - `POST /items` returns status `201`.
-- `GET /items` returns a JSON array.
+- `GET /items` returns a JSON array with at most one newest row.
 
 ## Reset Between Runs
 
@@ -168,4 +168,6 @@ TRUNCATE bun_schema.users RESTART IDENTITY;
 ```
 
 For read benchmarks, seed all three schemas with comparable data volumes before
-starting k6.
+starting k6. The read endpoint intentionally returns only the newest row so the
+test measures PostgreSQL communication and driver overhead instead of large JSON
+serialization and response transfer.

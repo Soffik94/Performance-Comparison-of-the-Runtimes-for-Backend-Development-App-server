@@ -67,7 +67,9 @@ Response `200`:
 
 ### GET /items
 
-Reads all benchmark records from PostgreSQL.
+Reads the newest benchmark record from PostgreSQL. The endpoint returns at most
+one row so read benchmarks do not include full-table JSON serialization and
+large response transfer.
 
 Response `200`:
 
@@ -150,7 +152,9 @@ Response `200`:
 
 ### GET /items
 
-Reads all benchmark records from PostgreSQL.
+Reads the newest benchmark record from PostgreSQL. The endpoint returns at most
+one row so read benchmarks do not include full-table JSON serialization and
+large response transfer.
 
 Response `200`:
 
@@ -233,7 +237,9 @@ Response `200`:
 
 ### GET /items
 
-Reads all benchmark records from PostgreSQL.
+Reads the newest benchmark record from PostgreSQL. The endpoint returns at most
+one row so read benchmarks do not include full-table JSON serialization and
+large response transfer.
 
 Response `200`:
 
