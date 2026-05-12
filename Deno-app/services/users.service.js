@@ -1,12 +1,12 @@
 //je voláno z kontroleru
-import { getClient } from "../db/pool.js";
+import { getClient, usersTable } from "../db/pool.js";
 
 export const createUser = async (name, email) => {
   const client = await getClient();
 
   try {
     const result = await client.queryObject(
-      "INSERT INTO users (name, email) VALUES ($1, $2) RETURNING *",
+      `INSERT INTO ${usersTable} (name, email) VALUES ($1, $2) RETURNING *`,
       [name, email]
     );
 
@@ -21,7 +21,7 @@ export const getUsers = async () => {
 
   try {
     const result = await client.queryObject(
-      "SELECT id, name, email, created_at FROM users ORDER BY id DESC LIMIT 1"
+      `SELECT id, name, email, created_at FROM ${usersTable} ORDER BY id DESC LIMIT 1`
     );
 
     return result.rows;
